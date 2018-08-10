@@ -27,78 +27,35 @@ public class CopterControl : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        //rotorCtrlMaster.ControlRotorForces(leftJoyVert, rightJoyHoriz,
-        // rightJoyVert, leftJoyHoriz);
     }
 
     // Update is called once per frame
     void Update() {
-
-        // *** TODO: Add changing keybinding support at some point ***
-
-        leftJoyHoriz = Input.GetAxisRaw("LeftJoyHoriz");
-        leftJoyVert = Input.GetAxis("LeftJoyVert");
-
-        rightJoyHoriz = Input.GetAxis("RightJoyHoriz");
-        rightJoyVert = Input.GetAxis("RightJoyVert");
-
-
-
-
-        // TESTING FOR BUTTONS
-        if (Input.GetButtonDown("X Button"))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) { leftJoyVert = Input.GetAxisRaw("W/S"); Debug.Log("W/S Pressed: " + leftJoyVert); }
+        else
         {
-            print("X Button Pressed!");// put functionality here
-        }
-        if (Input.GetButtonDown("Y Button"))
-        {
-            print("Y Button Pressed!");// put functionality here
-        }
-        if (Input.GetButtonDown("A Button"))
-        {
-            print("A Button Pressed!");// put functionality here
-        }
-        if (Input.GetButtonDown("B Button"))
-        {
-            print("B Button Pressed!"); // put functionality here
-        }
-        if (Input.GetButtonDown("Start Button"))
-        {
-            print("Start Button Pressed!"); // put functionality here
-        }
-        if (Input.GetButtonDown("Select Button"))
-        {
-            print("Select Button Pressed!"); // put functionality here
+            leftJoyVert = Input.GetAxis("LeftJoyVert");
         }
 
-        // TESTING FOR TRIGGERS
-        if (Input.GetButtonDown("L1 Trigger"))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) { leftJoyHoriz = Input.GetAxisRaw("A/D"); Debug.Log("A/D Pressed: " + leftJoyHoriz); }
+        else
         {
-            print("L1 Trigger Pressed!");
+            leftJoyHoriz = Input.GetAxisRaw("LeftJoyHoriz");
         }
-        if (Input.GetAxisRaw("L2 Trigger") != 0)
-        {
-            // L2 and R2 Triggers work like joystick axes, so we need to make them work like buttons
-            if (!L2TriggerAxisInUse)
-            {
-                print("L2 Trigger Pressed!"); // put functionality here
-                L2TriggerAxisInUse = true;
-            }
 
-        }
-        if (Input.GetButtonDown("R1 Trigger"))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)) { rightJoyVert = Input.GetAxisRaw("Up/Down"); Debug.Log("U/D Pressed: " + rightJoyVert); }
+        else
         {
-            print("R1 Trigger Pressed!");
+            rightJoyVert = Input.GetAxis("RightJoyVert");
         }
-        if (Input.GetAxisRaw("R2 Trigger") != 0)
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) { rightJoyHoriz = Input.GetAxisRaw("Left/Right"); Debug.Log("L/R Pressed: " + rightJoyHoriz); }
+        else
         {
-            // L2 and R2 Triggers work like joystick axes, so we need to make them work like buttons
-            if (!R2TriggerAxisInUse)
-            {
-                print("R2 Trigger Pressed!"); // put functionality here
-                R2TriggerAxisInUse = true;
-            }
+            rightJoyHoriz = Input.GetAxis("RightJoyHoriz");
         }
+        
+        
 
 
         if (Input.GetAxisRaw("L2 Trigger") == 0) { L2TriggerAxisInUse = false; }
@@ -109,4 +66,5 @@ public class CopterControl : MonoBehaviour {
     public float RightJoyVert { get { return rightJoyVert; } }
     public float LeftJoyHoriz { get { return leftJoyHoriz; } }
     public float LeftJoyVert { get { return leftJoyVert; } }
+
 }
