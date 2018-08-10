@@ -26,8 +26,6 @@ public class CopterPID : MonoBehaviour {
 
     Vector3 correctionVector;
 
-    Vector3 localForward, localRight;
-
     Vector3 wishedAnglesVector;
 
     void Start () {
@@ -44,9 +42,6 @@ public class CopterPID : MonoBehaviour {
         correctionVector = new Vector3();
 
         wishedAnglesVector = Vector3.up;
-
-        localForward = transform.InverseTransformDirection(transform.forward);
-        localRight = transform.InverseTransformDirection(transform.right);
     }
 	
 	void Update () {
@@ -102,8 +97,17 @@ public class CopterPID : MonoBehaviour {
         wishedAnglesVector = transform.TransformDirection(Quaternion.Euler(wishedPitch, 0, wishedRoll) * (Vector3.up));
 
         // calculate error by taking the angle between the Z and X axes and the wished angle
-        pitchError = Vector3.Angle(localForward, wishedAnglesVector) - 90;
-        rollError = Vector3.Angle(localRight, wishedAnglesVector) - 90;
+        pitchError = Vector3.Angle(Vector3.forward, wishedAnglesVector) - 90;
+        rollError = Vector3.Angle(Vector3.right, wishedAnglesVector) - 90;
+
+        /* //*** Experimental Zone ***
+        Vector3 relativeForward = Quaternion.FromToRotation(Vector3.left, -transform.right) * Vector3.forward;
+        Vector3 relativeRight = Quaternion.FromToRotation(Vector3.forward, transform.forward) * Vector3.right;
+
+        pitchError = Vector3.Angle(relativeForward, wishedAnglesVector) - 90;
+        rollError = Vector3.Angle(relativeRight, wishedAnglesVector) - 90;
+
+        Debug.Log("PitchError: " + pitchError);*/
 
         // get values ready for PID calculations
         if (!pidInitialized)
